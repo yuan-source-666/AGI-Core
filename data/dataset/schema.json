@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AGI-Core Dataset Sample（I6 核心 5 字段 + meta 扩展）",
+  "type": "object",
+  "required": [
+    "id",
+    "modality",
+    "input",
+    "expected",
+    "quality"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ds-[0-9]{4}$"
+    },
+    "modality": {
+      "type": "string",
+      "enum": [
+        "text",
+        "image",
+        "audio",
+        "multi"
+      ],
+      "description": "任务主模态场景标记；input 恒含三模态字段"
+    },
+    "input": {
+      "type": "object",
+      "required": [
+        "text",
+        "image_feat",
+        "audio_feat"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "image_feat": {
+          "$ref": "#/definitions/feat8"
+        },
+        "audio_feat": {
+          "$ref": "#/definitions/feat8"
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "required": [
+        "answer",
+        "intent",
+        "entities"
+      ],
+      "properties": {
+        "answer": {
+          "type": "string"
+        },
+        "intent": {
+          "enum": [
+            "qa",
+            "describe",
+            "retrieve",
+            "command"
+          ]
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "quality": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "const": "synthetic"
+        },
+        "lang": {
+          "const": "zh"
+        },
+        "template_id": {
+          "type": "string"
+        },
+        "noise": {
+          "enum": [
+            "dup",
+            "near-dup",
+            "format",
+            "outlier",
+            null
+          ]
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "text_len": {
+          "type": "integer"
+        },
+        "orig_norm": {
+          "type": "object"
+        },
+        "robust": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "feat8": {
+      "type": "object",
+      "required": [
+        "values",
+        "label"
+      ],
+      "properties": {
+        "values": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "type": "number"
+          }
+        },
+        "label": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "dataset_version": "1.0",
+  "seed": 42,
+  "noise_injected": {
+    "dup": 24,
+    "near_dup": 12,
+    "format": 12,
+    "outlier": 12
+  },
+  "pipeline": {
+    "raw": 300,
+    "validate": {
+      "in": 300,
+      "removed": 12,
+      "out": 288
+    },
+    "dedup": {
+      "in": 288,
+      "removed_exact": 24,
+      "removed_near": 12,
+      "out": 252,
+      "dedup_rate": 0.125
+    },
+    "outlier": {
+      "in": 252,
+      "removed": 12,
+      "out": 240,
+      "outlier_rate": 0.0476,
+      "reasons": {
+        "O1": 6,
+        "O2": 6,
+        "O3": 0
+      }
+    },
+    "normalize_score": {
+      "out": 240
+    },
+    "split": {
+      "cleaned": 240,
+      "train": 192,
+      "eval": 48
+    }
+  },
+  "robust_eval": 9,
+  "modality_dist": {
+    "cleaned": {
+      "text": 34,
+      "image": 77,
+      "audio": 34,
+      "multi": 95
+    },
+    "train": {
+      "text": 27,
+      "image": 62,
+      "audio": 27,
+      "multi": 76
+    },
+    "eval": {
+      "text": 7,
+      "image": 15,
+      "audio": 7,
+      "multi": 19
+    }
+  },
+  "intent_dist": {
+    "cleaned": {
+      "qa": 55,
+      "describe": 61,
+      "retrieve": 68,
+      "command": 56
+    },
+    "train": {
+      "qa": 44,
+      "describe": 49,
+      "retrieve": 54,
+      "command": 45
+    },
+    "eval": {
+      "qa": 11,
+      "describe": 12,
+      "retrieve": 14,
+      "command": 11
+    }
+  },
+  "intent_range_pp": {
+    "train": 5.2,
+    "eval": 6.2
+  },
+  "quality": {
+    "mean": 0.9766,
+    "median": 0.9865,
+    "p10": 0.9375,
+    "p90": 1.0,
+    "min": 0.888,
+    "max": 1.0,
+    "below_gate": 0,
+    "below_gate_ratio": 0.0,
+    "train_mean": 0.976,
+    "eval_mean": 0.9791,
+    "p25_threshold": 0.9603
+  },
+  "concept_coverage": {
+    "slots_total": 30,
+    "slots_covered": 30,
+    "min_per_slot": 4,
+    "max_per_slot": 12
+  },
+  "completeness": 1.0,
+  "label_coverage": 1.0,
+  "assertions": [
+    {
+      "name": "①清洗后样本量 ≥240",
+      "ok": true,
+      "detail": "cleaned=240（raw=300）"
+    },
+    {
+      "name": "②train≥192 / eval≥48",
+      "ok": true,
+      "detail": "train=192, eval=48"
+    },
+    {
+      "name": "③train 无 quality<0.6",
+      "ok": true,
+      "detail": "min=0.888"
+    },
+    {
+      "name": "④去重率∈[10%,14%]",
+      "ok": true,
+      "detail": "12.5%"
+    },
+    {
+      "name": "⑤异常率∈[3%,6%]",
+      "ok": true,
+      "detail": "4.8%"
+    },
+    {
+      "name": "⑥意图占比极差≤15pp(train/eval)",
+      "ok": true,
+      "detail": "train=5.2pp, eval=6.2pp"
+    },
+    {
+      "name": "⑦各模态≥30 条",
+      "ok": true,
+      "detail": "{'text': 34, 'image': 77, 'audio': 34, 'multi': 95}"
+    },
+    {
+      "name": "⑧30 概念槽全覆盖",
+      "ok": true,
+      "detail": "30/30"
+    },
+    {
+      "name": "⑨quality 均值≥0.85",
+      "ok": true,
+      "detail": "mean=0.9766"
+    },
+    {
+      "name": "⑩quality<0.6 占比<5%",
+      "ok": true,
+      "detail": "0.0%"
+    },
+    {
+      "name": "11.完整性≥98%",
+      "ok": true,
+      "detail": "100.0%"
+    },
+    {
+      "name": "12.标签覆盖率=100%",
+      "ok": true,
+      "detail": "100.0%"
+    }
+  ],
+  "selftest": {
+    "repro_byte_identical": true,
+    "load_dataset": {
+      "train": 192,
+      "eval": 48,
+      "i6_fields_ok": true,
+      "err_3002": 3002,
+      "err_3003": 3003
+    }
+  },
+  "files": {
+    "raw.jsonl": {
+      "rows": 300,
+      "sha": "d9b5c3a039cc7e8d"
+    },
+    "cleaned.jsonl": {
+      "rows": 240,
+      "sha": "78ce18bbed8b697b"
+    },
+    "train.jsonl": {
+      "rows": 192,
+      "sha": "d614395006c30cd8"
+    },
+    "eval.jsonl": {
+      "rows": 48,
+      "sha": "fa56c61b6f4c01c3"
+    },
+    "invalid.jsonl": {
+      "rows": 24,
+      "sha": "43ccce90532d2138"
+    }
+  }
+}
